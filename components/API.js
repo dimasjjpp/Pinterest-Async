@@ -1,6 +1,6 @@
 import { suggestedWords } from './header'
 
-// Función principal para obtener imágenes
+// Main function to fetch images
 export const fetchImages = async (query, count = 50) => {
   const myHeaders = new Headers()
   myHeaders.append(
@@ -27,14 +27,12 @@ export const fetchImages = async (query, count = 50) => {
   const response = await fetch(URL, requestOptions)
 
   if (!response.ok) {
-    throw new Error(
-      `Error en la solicitud: ${response.status} ${response.statusText}`
-    )
+    throw new Error(`Request error: ${response.status} ${response.statusText}`)
   }
 
   const data = await response.json()
 
-  // Caso 1: Si el query está vacío, devolver imágenes aleatorias
+  // Case 1: if the query is empty, return random images
   if (!query || query.trim() === '') {
     return data.map((photo) => ({
       id: photo.id,
@@ -43,21 +41,21 @@ export const fetchImages = async (query, count = 50) => {
     }))
   }
 
-  // Caso 2: Si no hay resultados, mostrar sugerencia y buscar "cats"
+  // Case 2: if the query is not empty and there are no results, show suggestions
   if (query && data.total === 0) {
-    // Obtener una palabra aleatoria
+    // Get a random word
     suggestedWords()
-    // Obtener el contenedor por su clase
+    // Get the container by its class
     const suggestionContainer = document.querySelector(
       '.suggested-words-container'
     )
     if (suggestionContainer) {
-      suggestionContainer.classList.remove('hidden') // Hacer visible el contenedor
+      suggestionContainer.classList.remove('hidden') // Make it visible
     }
     return fetchImages('cats', count)
   }
 
-  // Caso 3: Si hay resultados, procesar y devolver los datos
+  // Case 3: if the query is not empty and there are results, return the images
   if (query && data.total > 0) {
     const processedData = data.results.map((photo) => ({
       id: photo.id,
@@ -67,17 +65,17 @@ export const fetchImages = async (query, count = 50) => {
 
     console.log(processedData)
 
-    // Ocultar la barra de sugerencias si estaba visible
+    // Hide the suggestion container if it exists
     const suggestionContainer = document.querySelector(
       '.suggested-words-container'
     )
     if (suggestionContainer) {
-      suggestionContainer.classList.remove('visible') // Ocultar la barra
+      suggestionContainer.classList.remove('visible') // Hide it
     }
 
     return processedData
   }
 
-  // Realizar una nueva búsqueda con "cats"
+  // New search with no results, return cat images
   return fetchImages('cats', count)
 }

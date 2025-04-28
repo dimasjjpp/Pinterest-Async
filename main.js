@@ -5,7 +5,7 @@ import {
   suggestedWords
 } from './components/header'
 import { fetchImages } from './components/API'
-
+document.title = 'Pinterest Clone'
 //aside
 const asideElement = document.createElement('aside')
 const asideRefContainer = document.createElement('div')
@@ -42,7 +42,8 @@ modalDisplay.addEventListener('click', () => {
   event.preventDefault()
   modalMenu.classList.toggle('modal-menu-hidden')
 })
-// Crear el contenedor para las palabras sugeridas
+
+// geenrate random word for suggestion
 const suggestionContainer = document.createElement('div')
 suggestionContainer.classList.add('suggested-words-container')
 suggestionContainer.classList.add('hidden')
@@ -50,6 +51,7 @@ const randomWord = suggestedWords()
 suggestionContainer.innerHTML = `<span><p>${'¿Quizás quisiste buscar: '}${randomWord}${'?'}</p></span>`
 headerElement.appendChild(suggestionContainer)
 console.log(suggestedWords())
+
 //modal Suggestion event listener
 const suggestionSpan = document.querySelector('.suggested-words-container span')
 suggestionSpan.addEventListener('click', (event) => {
@@ -59,6 +61,7 @@ suggestionSpan.addEventListener('click', (event) => {
   input.placeholder = randomWord // Show the suggested word as a placeholder
   loadImages(randomWord, count)
 })
+
 //gallery
 const galleryElement = document.createElement('main')
 galleryElement.classList.add('gallery-section')
@@ -94,15 +97,27 @@ const loadImages = async (query = '', count = 50) => {
 
 loadImages('', count)
 
-//input searchbar
-const input = document.querySelector('input')
-input.addEventListener('input', async (event) => {
-  event.preventDefault()
-  const query = input.value.trim()
+//input searchbar w/ debounce
 
-  if (query.length > 0) {
-    loadImages(query, count)
-  } else {
-    loadImages('', count)
+const debounce = (func, delay) => {
+  let timeout
+  return (...args) => {
+    clearTimeout(timeout)
+    timeout = setTimeout(() => func(...args), delay)
   }
-})
+}
+
+const input = document.querySelector('input')
+input.addEventListener(
+  'input',
+  debounce(async (event) => {
+    event.preventDefault()
+    const query = input.value.trim()
+
+    if (query.length > 0) {
+      loadImages(query, count)
+    } else {
+      loadImages('', count)
+    }
+  }, 500)
+)

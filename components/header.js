@@ -13,21 +13,24 @@ export const headerRenderFunction = () => {
 export const modalMenuContent = () => {
   return `
  
-  <span>Currently in</span>
-  <div>
-    <p>D</p>
-    <div class="modalMenuUserInfo">
-      <p>user</p>
-      <p>Personal</p>
-      <p>m@il</p>
-    </div>
+ <span>Currently in</span>
+<div class="modalMenuUserInfo">
+  <h3>D</h3>
+  <div class="modalInfoInnerContainer">
+    <p>user</p>
+    <p>Personal</p>
+    <p>m@il</p>
   </div>
+</div>
+<div class="modalMenuOptionsContainer">
   <span>Convert to bussines</span>
-  <div class="modalMenuOptionsContainer" id="modalMenuOptionsContainer">
-    <p>Your accounts</p>
-    <p>Add pinterest account</p>
-    <p>Log out</p>
-  </div>
+  <ul>
+    <li>Your account</li>
+    <li>Add Pinterest account</li>
+    <li>Log out</li>
+  </ul>
+</div>
+
 
  `
 }

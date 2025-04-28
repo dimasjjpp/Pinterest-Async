@@ -107,6 +107,7 @@ header {
 
 .headerInnerContainer input::placeholder {
   color: var(--button-hover-color);
+  padding-left: 1em;
 }
 header p {
   background-color: black;
@@ -135,6 +136,10 @@ header p {
   align-items: center;
 
   justify-content: space-between;
+}
+.modal-menu-hidden {
+  display: none;
+  opacity: 0;
 }
 .modal-menu {
   position: absolute;

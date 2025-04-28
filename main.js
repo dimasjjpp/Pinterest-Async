@@ -115,9 +115,22 @@ input.addEventListener(
     const query = input.value.trim()
 
     if (query.length > 0) {
+      if (!localStorage.getItem('firstSearch')) {
+        localStorage.setItem('firstSearch', query)
+        console.log('Primera búsqueda guardada:', query)
+      }
+
       loadImages(query, count)
     } else {
       loadImages('', count)
     }
   }, 500)
 )
+
+document.addEventListener('DOMContentLoaded', () => {
+  const savedQuery = localStorage.getItem('firstSearch')
+  if (savedQuery) {
+    input.value = savedQuery
+    loadImages(savedQuery, count)
+  }
+})

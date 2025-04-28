@@ -103,6 +103,7 @@ header {
   background-color: var(--background-input-color);
   font-size: var(--font-size-medium);
   font-weight: var(--font-weight-bold);
+  padding-left: 1em;
 }
 
 .headerInnerContainer input::placeholder {
